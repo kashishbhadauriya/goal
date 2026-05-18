@@ -1,10 +1,8 @@
-require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
-const path = require('path');
+require('dotenv').config();
 
 const app = express();
 
@@ -20,27 +18,12 @@ app.use('/api/goals', require('./routes/goals'));
 app.use('/api/checkins', require('./routes/checkins'));
 app.use('/api/reports', require('./routes/reports'));
 app.use('/api/admin', require('./routes/admin'));
-app.use('/api/admin', require('./routes/admin'));
-
-app.get('/', (req, res) => {
-  res.send('Backend Running Successfully 🚀');
-});
-
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
-  );
-}
 
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
-  .catch((err) => {
-    console.error('❌ MongoDB connection error:', err.message);
-  });
+  .catch((err) => console.error('❌ MongoDB connection error:', err.message));
 
 // Only start the server if NOT running on Vercel
 if (!process.env.VERCEL) {
