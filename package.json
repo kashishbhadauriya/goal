@@ -7,7 +7,7 @@
     "server": "nodemon server/index.js",
     "client": "cd client && npm start",
     "install-all": "npm install && cd client && npm install",
-    "build": "cd client && npm install && npm run build",
+    "build": "cd client && npm install && npm run build && cd .. && rm -rf build && cp -r client/build build",
     "start": "NODE_ENV=production node server/index.js"
   },
   "dependencies": {
